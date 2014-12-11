@@ -1,0 +1,74 @@
+/**
+ * 
+ */
+package tiles;
+
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.JLabel;
+
+/**
+ * create size and appearance of tile as well as makes them to interact with mouse
+ *
+ */
+
+//superclass
+public class Tile extends JLabel implements MouseListener {
+	
+	private static final long serialVersionUID = 1L;
+	
+	//background image
+	private String faceImage = "/icons/final.jpg";
+		
+	//default size for tile
+	private final static Dimension size = new Dimension(250,250);
+	
+	public Tile() {
+		
+		setMinimumSize(size);
+		setMaximumSize(size);
+		setPreferredSize(size);
+		setOpaque(true);
+		setBackground(Color.BLACK);
+		addMouseListener(this);
+	}
+	
+	//front size, active side
+	public void showFace() {
+		getForeground();
+	}
+	
+	//default shown in beginning
+	public void hideFace() {
+		setBackground(Color.BLACK);
+	}
+	
+	
+	
+	
+	//meant to read separate image file
+	protected void setForeground(String string){
+		this.faceImage = string;
+	}
+	
+	//use image file
+	public String getFaceImage() {
+		return this.faceImage;
+	}
+	
+	
+	//allows mouse to interact with tiles through clicks
+	public void mouseClicked(MouseEvent e) {
+		control.Control.CurrentWindow.TileClicked(this);
+	}
+	public void mouseEntered(MouseEvent e) {
+	}
+	public void mouseExited(MouseEvent e) {
+	}
+	public void mousePressed(MouseEvent e) {
+	}
+	public void mouseReleased(MouseEvent e) {
+	}	
+	
+}

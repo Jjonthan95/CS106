@@ -1,0 +1,23 @@
+/**
+ * 
+ */
+
+/**
+ * @author jhernand
+ *
+ */
+public class Project1 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		double Credit = 800.00
+				
+		sixmonths(Credit)
+		
+		public static void main(String[] args) {
+
+	}
+
+}

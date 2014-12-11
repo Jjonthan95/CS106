@@ -1,0 +1,21 @@
+import java.io.*;
+import java.util.*;
+/**
+ * @author Jonathan
+ *
+ */
+public class Project5 {
+
+	/**
+	 * @param args
+	 * @throws FileNotFoundException 
+	 */
+	public static void main(String[] args) throws FileNotFoundException {
+		File inputFile = new File ("/src/project5_list.txt");
+		Scanner inputReader = new Scanner(inputFile);
+		
+		System.out.println(inputReader);
+		
+	}
+
+}

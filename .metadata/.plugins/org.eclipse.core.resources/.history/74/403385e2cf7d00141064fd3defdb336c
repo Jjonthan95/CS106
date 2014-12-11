@@ -1,0 +1,16 @@
+package tiles;
+
+public class CFTile extends Tile {
+	
+	private static final long serialVersionUID = 1L;
+
+	public CFTile() {
+		
+		super();
+		showFace("/icons/captain.png");
+		
+	}
+	
+	
+	
+}

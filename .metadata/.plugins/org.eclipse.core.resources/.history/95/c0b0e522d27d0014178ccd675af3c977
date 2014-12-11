@@ -1,0 +1,10 @@
+package tiles;
+
+public class TileIcon extends Tile {
+	
+	public interface Icon {
+		Icon tiles[] = new icon();
+	}
+	
+	
+}

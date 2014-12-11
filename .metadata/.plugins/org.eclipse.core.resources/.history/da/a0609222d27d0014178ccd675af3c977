@@ -1,0 +1,10 @@
+package tiles;
+
+public class TileIcon {
+	
+	public interface Icon {
+		
+	}
+	
+	
+}

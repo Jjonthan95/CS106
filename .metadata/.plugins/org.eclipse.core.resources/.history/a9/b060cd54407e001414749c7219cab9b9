@@ -1,0 +1,120 @@
+package control;
+
+import java.awt.*;
+
+import javax.swing.JFrame;
+
+import tiles.*;
+
+
+/*
+ * Creating the interactive window for the game
+ */
+public class Control extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
+	
+	//creates beginning title
+	private final String title = "Memory Match";
+	
+	//allows reading of click on window
+	public static void main(String[] args) {
+		CurrentWindow = new Control();
+	}
+	
+	
+	
+	public Control() {
+		
+		//window size and title		
+		setSize(400,400);
+		setTitle(title);
+		
+		setUpGame();
+		
+		//makes window visible
+		setVisible(true);
+		
+		//stops program when closed
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	}
+	
+	//window has no value to begin until first click
+	public static Control CurrentWindow = null;
+	
+	private void setUpGame() {
+		
+		//creates layout, 5 by 6 six grid with 2 px spacing
+		getContentPane().setLayout(new GridLayout(5,6,2,2));
+		
+		//create tiles in window
+		getContentPane().add(SelectedTile);
+		getContentPane().add(new CFTile());
+		getContentPane().add(new KirbyTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new CFTile());
+		getContentPane().add(new CFTile());
+		getContentPane().add(new KirbyTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new CFTile());
+		getContentPane().add(new CFTile());
+		getContentPane().add(new KirbyTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new CFTile());
+		getContentPane().add(new CFTile());
+		getContentPane().add(new KirbyTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new CFTile());
+		getContentPane().add(new CFTile());
+		getContentPane().add(new KirbyTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new CFTile());
+		getContentPane().add(new CFTile());
+		getContentPane().add(new KirbyTile());
+		getContentPane().add(new MGWTile());
+		getContentPane().add(new MGWTile());
+		
+	}
+	
+	//creates variable for adding points when correctly matched
+	private Tile SelectedTile = null;
+	private int points = 0;
+	
+	//one point per correct match
+	private void AddPoint() {
+		points++;
+		setTitle(title + " - " + points + " Points");
+	}
+	
+	//keeps track of first click and what to do with second click
+	public void TileClicked(Tile tile) {
+		if (SelectedTile == null){ //first click
+			tile.showFace();
+			SelectedTile = tile;
+			return;
+		}else if (SelectedTile == tile){ //if double clicked on tile
+			tile.hideFace();
+			SelectedTile = null;
+			return;
+		}else if (SelectedTile.getFaceImage() == tile.getFaceImage()){ //if first and second click DO match
+			tile.showFace();
+			AddPoint();
+			getContentPane().remove(SelectedTile);
+			SelectedTile = null;
+			return;
+		}else{//if first and second click DON'T match
+			SelectedTile.hideFace();
+			SelectedTile = null;
+		}
+		
+	}
+	
+	
+	
+}
