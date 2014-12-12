@@ -20,8 +20,8 @@ public class MemoryGame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	static String files[] = {"src/captain.png", "src/duck.png", "src/fox.png",
-		 "src/game.png", "src/kirby.png", "src/link.png", "src/mario.png",
+	static String files[] = {"src/captain.png", "src/kong.png", "src/fox.png",
+		 "src/ness.png", "src/kirby.png", "src/link.png", "src/mario.png",
 		 "src/mega.png", "src/pac.png", "src/peach.png", "src/pikachu.png",
 		 "src/samus.png", "src/sonic.png", "src/villager.png", "src/yoshi.png"};
     static JButton buttons[];
@@ -47,7 +47,7 @@ public class MemoryGame extends JFrame {
         // Create a set BorderLayout
         setLayout(new GridLayout(5, 6, 2, 2));
         
-        closedIcon = new ImageIcon("src/final.JPG");
+        closedIcon = new ImageIcon("src/smash.png");
         numButtons = files.length * 2;
         buttons = new JButton[numButtons];
         icons = new ImageIcon[numButtons];
@@ -98,8 +98,8 @@ public class MemoryGame extends JFrame {
 		JButton click1 = buttons[currentIndex];
 		JButton click2 = buttons[oddClickIndex];
 		
-		click1.setEnabled (false);
-		click2.setEnabled (false);
+		click1.setEnabled(false);
+		click2.setEnabled(false);
 	}
     
     private int points = 0;
@@ -109,7 +109,25 @@ public class MemoryGame extends JFrame {
 		points++;
 		setTitle(title + " - " + points + " Points");
 	}
+	
+	//Finish Screen
+	private void Congrats(){
+		if (points > 14){
+			setTitle("Congrats!");
+			
+			JOptionPane optionPane = new JOptionPane("Congradulations!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+			
+			JFrame endScreen = new JFrame();
+			endScreen.setTitle("  ");
+			endScreen.setSize(400,400);
+			endScreen.setVisible(true);
+			
+			endScreen.setContentPane(optionPane);
+			endScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
+	}
     
+	
     private class ImageButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -118,41 +136,45 @@ public class MemoryGame extends JFrame {
             if (myTimer.isRunning())
                 return;
             
-            numClicks++;
+            	numClicks++;
             
-            // which button was clicked?
-            for (int i = 0; i < numButtons; i++) {
-                if (e.getSource() == buttons[i]) {
-                    buttons[i].setIcon(icons[i]);
-                    currentIndex = i;
+            	// which button was clicked?
+            	for (int i = 0; i < numButtons; i++) {
+            		if (e.getSource() == buttons[i]) {
+            			buttons[i].setIcon(icons[i]);
+            			currentIndex = i;
                     
-                }
-            }
+            		}
+            	}
             
-            // check for even click
-            if (numClicks % 2 == 0) {
-                // check whether same position is clicked twice!
-                if (currentIndex == oddClickIndex) {
-                    numClicks--;
-                    return;
+            	// check for even click
+            	if (numClicks % 2 == 0) {
+            		// check whether same position is clicked twice!
+            		if (currentIndex == oddClickIndex) {
+            			numClicks--;
+            			return;
+            		}
+            		// are two images matching?
+            		if (icons[currentIndex] != icons[oddClickIndex]) {
+            			// show images for 1 sec, before flipping back
+            			myTimer.start(); 
+            			// if they match...
+            		}else if (icons[currentIndex] == icons[oddClickIndex]){
+            			//...you get a point...
+            			AddPoint();
+            			//...and the tiles are unusable but present.
+            			MatchedTile();
+            			Congrats();
+            			return;
+            		}else{
+            		}
+            	} else {
+            		// we just record index for odd clicks
+            		oddClickIndex = currentIndex;
                 }
-                // are two images matching?
-                if (icons[currentIndex] != icons[oddClickIndex]) {
-                    // show images for 1 sec, before flipping back
-                    myTimer.start(); 
-                // if they match...
-                }else if (icons[currentIndex] == icons[oddClickIndex]){
-                	//...you get a point...
-                	AddPoint();
-                	//...and the tiles are unusable but present.
-                	MatchedTile();
-                	return;
-                }else{
-                }
-            } else {
-                // we just record index for odd clicks
-                oddClickIndex = currentIndex;
-                }
+            	
+            	
+            	
             }
         }
 
