@@ -1,11 +1,8 @@
 package memorygame;
 
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
-
 import java.util.Random;
 
 /**
@@ -20,17 +17,18 @@ public class MemoryGame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	static String files[] = {"src/captain.png", "src/kong.png", "src/fox.png",
-		 "src/ness.png", "src/kirby.png", "src/link.png", "src/mario.png",
-		 "src/mega.png", "src/pac.png", "src/peach.png", "src/pikachu.png",
-		 "src/samus.png", "src/sonic.png", "src/villager.png", "src/yoshi.png"};
+	static String files[] = {"src/captain.png", "src/donkey.png", "src/fox.png",
+		 "src/jiggly.png", "src/kirby.png", "src/link.png", "src/mario.png",
+		 "src/mega.png", "src/luigi.png", "src/ness.png", "src/pikachu.png",
+		 "src/samus.png", "src/zelda.png", "src/villager.png", "src/yoshi.png"};
     static JButton buttons[];
     ImageIcon closedIcon;
     int numButtons;
     static ImageIcon icons[];
     Timer myTimer;
     
-    private final String title = "Memory Match";
+    
+    private final String title = "Smash Match";
     
     int numClicks = 0;
     int oddClickIndex = 0;
@@ -38,16 +36,22 @@ public class MemoryGame extends JFrame {
 
     public MemoryGame() {
     	
-        // Set the title.
+        //title
         setTitle(title);
-
-        // Specify an action for the close button.
+        
+        //start with maximized window
+        setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        
+        //closes program when exited
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Create a set BorderLayout
+        //create layout
         setLayout(new GridLayout(5, 6, 2, 2));
         
+        //back of icon
         closedIcon = new ImageIcon("src/smash.png");
+        
+        //creates duplicates of each icon for mathcing
         numButtons = files.length * 2;
         buttons = new JButton[numButtons];
         icons = new ImageIcon[numButtons];
@@ -65,7 +69,7 @@ public class MemoryGame extends JFrame {
             add(buttons[j++]);
         }
 
-        // randomize icons array
+        //randomize icons array
         Random gen = new Random();
         for (int i = 0; i < numButtons; i++) {
             int rand = gen.nextInt(numButtons);
@@ -74,17 +78,17 @@ public class MemoryGame extends JFrame {
             icons[rand] = temp;
         }
 
-        // Pack and display the window.
+        //display window
         pack();
         setVisible(true);
 
+        //delay before icons hide
         myTimer = new Timer(1000, new TimerListener());
-        // myTimer.start();
         
         
     }
     
-    //closes hides both clicked images if don't match
+    //closes and hides both clicked images if don't match
     private class TimerListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -110,19 +114,26 @@ public class MemoryGame extends JFrame {
 		setTitle(title + " - " + points + " Points");
 	}
 	
-	//Finish Screen
+	//finish screen
 	private void Congrats(){
 		if (points > 14){
-			setTitle("Congrats!");
 			
-			JOptionPane optionPane = new JOptionPane("Congradulations!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
-			
+			//creates congratulatory screen w/o button
+			JOptionPane optionPane = new JOptionPane("You found them all!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
 			JFrame endScreen = new JFrame();
-			endScreen.setTitle("  ");
-			endScreen.setSize(400,400);
+			endScreen.setTitle("COMPLETE!");
+			endScreen.setSize(1300,	750);
 			endScreen.setVisible(true);
-			
+			endScreen.setLocation(35, 8);
+			endScreen.setResizable(false);
 			endScreen.setContentPane(optionPane);
+			//overlays new window
+			endScreen.setAlwaysOnTop(true);
+			//add image to end screen
+			endScreen.add(new JLabel(new ImageIcon("src/end.png")));
+			
+			
+			//closes program when window is closed
 			endScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 	}
@@ -132,13 +143,13 @@ public class MemoryGame extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
             
-            // we are waiting for timer to pop - no user clicks accepted
+            //while delay time in affect, no user input accepted
             if (myTimer.isRunning())
                 return;
             
             	numClicks++;
             
-            	// which button was clicked?
+            	//which button was clicked?
             	for (int i = 0; i < numButtons; i++) {
             		if (e.getSource() == buttons[i]) {
             			buttons[i].setIcon(icons[i]);
@@ -147,18 +158,18 @@ public class MemoryGame extends JFrame {
             		}
             	}
             
-            	// check for even click
+            	//check for even click
             	if (numClicks % 2 == 0) {
-            		// check whether same position is clicked twice!
+            		//check whether same position is clicked twice!
             		if (currentIndex == oddClickIndex) {
             			numClicks--;
             			return;
             		}
-            		// are two images matching?
+            		//are two images matching?
             		if (icons[currentIndex] != icons[oddClickIndex]) {
-            			// show images for 1 sec, before flipping back
+            			//show images for 1 sec, before flipping back
             			myTimer.start(); 
-            			// if they match...
+            			//if they match...
             		}else if (icons[currentIndex] == icons[oddClickIndex]){
             			//...you get a point...
             			AddPoint();
@@ -169,7 +180,7 @@ public class MemoryGame extends JFrame {
             		}else{
             		}
             	} else {
-            		// we just record index for odd clicks
+            		//record index for odd clicks
             		oddClickIndex = currentIndex;
                 }
             	
